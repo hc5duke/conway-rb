@@ -8,23 +8,23 @@ class Conway
   def initialize
     self.next_board = ROWS.times.map{ COLS.times.map{ false } }
     self.current_board = ROWS.times.map{ COLS.times.map{ false } }
-    setup(:pulsar)
+    setup(:rand)
     play
   end
 
   def setup(board_name)
-    alives = []
+    seeds = []
     case board_name
 
     # Oscillators
     when :blinker
-      alives = [
+      seeds = [
         [2, 1],
         [2, 2],
         [2, 3],
       ]
     when :toad
-      alives = [
+      seeds = [
         [2, 2],
         [2, 3],
         [2, 4],
@@ -33,7 +33,7 @@ class Conway
         [3, 3],
       ]
     when :beacon
-      alives = [
+      seeds = [
         [1, 1],
         [1, 2],
         [2, 1],
@@ -44,19 +44,43 @@ class Conway
     when :pulsar
       [2,7,9,14].each{|num1|
         [4,5,6,10,11,12].each{|num2|
-          alives.push([num1, num2], [num2, num1])
+          seeds.push([num1, num2], [num2, num1])
         }
       }
 
+    # Spaceships
+    when :glider
+      seeds = [
+        [1, 3],
+        [2, 1],
+        [2, 3],
+        [3, 2],
+        [3, 3],
+      ]
+    when :lwss
+      seeds = [
+        [1, 2],
+        [1, 3],
+        [1, 4],
+        [1, 5],
+        [2, 1],
+        [2, 5],
+        [3, 5],
+        [4, 1],
+        [4, 4],
+      ]
+
     # Randomized
     when :rand
+      seeds = []
       ROWS.times.each do |row|
         COLS.times.each do |col|
-          alives[row][col] = true if rand > 0.3
+          seeds.push([row, col]) if rand > 0.7
         end
       end
     end
-    alives.each do |row, col|
+
+    seeds.each do |row, col|
       self.current_board[row][col] = true
     end
     print "\n" * (ROWS + 2)
