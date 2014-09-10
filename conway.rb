@@ -8,7 +8,7 @@ class Conway
   def initialize
     self.next_board = ROWS.times.map{ COLS.times.map{ false } }
     self.current_board = ROWS.times.map{ COLS.times.map{ false } }
-    setup(:blinker)
+    setup(:toad)
     play
   end
 
@@ -18,6 +18,13 @@ class Conway
       self.current_board[2][1] = true
       self.current_board[2][2] = true
       self.current_board[2][3] = true
+    when :toad
+      self.current_board[2][2] = true
+      self.current_board[2][3] = true
+      self.current_board[2][4] = true
+      self.current_board[3][1] = true
+      self.current_board[3][2] = true
+      self.current_board[3][3] = true
     when :rand
       self.current_board = ROWS.times.map{
         COLS.times.map{
@@ -82,14 +89,14 @@ class Conway
 
   def print_board
     print "\033[#{ROWS + 2}A"
-    puts "╔" + COLS.times.map{"═"}.join("═") + "╗"
+    puts "╔" + (COLS+1).times.map{"═"}.join("═") + "╗"
     self.current_board.each do |line|
       line = line.map do |square|
         square ? "█" : " "
       end.join(" ")
-      puts "║" + line + "║"
+      puts "║ " + line + " ║"
     end
-    puts "╚" + COLS.times.map{"═"}.join("═") + "╝"
+    puts "╚" + (COLS+1).times.map{"═"}.join("═") + "╝"
   end
 end
 
