@@ -3,36 +3,53 @@
 class Conway
   attr_accessor :next_board, :current_board
 
-  ROWS = 15
-  COLS = 15
+  ROWS = 20
+  COLS = 20
   def initialize
     self.next_board = ROWS.times.map{ COLS.times.map{ false } }
     self.current_board = ROWS.times.map{ COLS.times.map{ false } }
-    setup(:toad)
+    setup(:beacon)
     play
   end
 
   def setup(board_name)
+    alives = []
     case board_name
     when :blinker
-      self.current_board[2][1] = true
-      self.current_board[2][2] = true
-      self.current_board[2][3] = true
+      alives = [
+        [2, 1],
+        [2, 2],
+        [2, 3],
+      ]
     when :toad
-      self.current_board[2][2] = true
-      self.current_board[2][3] = true
-      self.current_board[2][4] = true
-      self.current_board[3][1] = true
-      self.current_board[3][2] = true
-      self.current_board[3][3] = true
+      alives = [
+        [2, 2],
+        [2, 3],
+        [2, 4],
+        [3, 1],
+        [3, 2],
+        [3, 3],
+      ]
+    when :beacon
+      alives = [
+        [1, 1],
+        [1, 2],
+        [2, 1],
+        [3, 4],
+        [4, 3],
+        [4, 4],
+      ]
     when :rand
-      self.current_board = ROWS.times.map{
-        COLS.times.map{
-          (rand > 0.3)
-        }
-      }
+      ROWS.times.each do |row|
+        COLS.times.each do |col|
+          alives[row][col] = true if rand > 0.3
+        end
+      end
     end
-    print "\n" * ROWS
+    alives.each do |row, col|
+      self.current_board[row][col] = true
+    end
+    print "\n" * (ROWS + 2)
   end
 
   def play
