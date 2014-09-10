@@ -3,8 +3,8 @@
 class Conway
   attr_accessor :next_board, :current_board
 
-  ROWS = 5
-  COLS = 5
+  ROWS = 15
+  COLS = 15
   def initialize
     self.next_board = ROWS.times.map{ COLS.times.map{ false } }
     self.current_board = ROWS.times.map{ COLS.times.map{ false } }
@@ -81,14 +81,15 @@ class Conway
   end
 
   def print_board
-    print "\033[#{ROWS}A"
-
+    print "\033[#{ROWS + 2}A"
+    puts "╔" + COLS.times.map{"═"}.join("═") + "╗"
     self.current_board.each do |line|
       line = line.map do |square|
         square ? "█" : " "
       end.join(" ")
-      puts line
+      puts "║" + line + "║"
     end
+    puts "╚" + COLS.times.map{"═"}.join("═") + "╝"
   end
 end
 
