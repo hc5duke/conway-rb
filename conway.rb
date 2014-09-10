@@ -8,13 +8,15 @@ class Conway
   def initialize
     self.next_board = ROWS.times.map{ COLS.times.map{ false } }
     self.current_board = ROWS.times.map{ COLS.times.map{ false } }
-    setup(:beacon)
+    setup(:pulsar)
     play
   end
 
   def setup(board_name)
     alives = []
     case board_name
+
+    # Oscillators
     when :blinker
       alives = [
         [2, 1],
@@ -39,6 +41,14 @@ class Conway
         [4, 3],
         [4, 4],
       ]
+    when :pulsar
+      [2,7,9,14].each{|num1|
+        [4,5,6,10,11,12].each{|num2|
+          alives.push([num1, num2], [num2, num1])
+        }
+      }
+
+    # Randomized
     when :rand
       ROWS.times.each do |row|
         COLS.times.each do |col|
