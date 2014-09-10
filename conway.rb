@@ -62,7 +62,7 @@ class Conway
     #Any live cell with more than three live neighbours dies, as if by overcrowding.
     #Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
     self.next_board[row][col] = self.current_board[row][col] ?
-      (2..4) === count :
+      (2..3) === count :
       3 === count
   end
 
