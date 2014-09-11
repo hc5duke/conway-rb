@@ -89,7 +89,7 @@ class Conway
   def play
     print_board
     loop do
-      sleep 0.25
+      sleep 0.10
       step
     end
   end
@@ -121,18 +121,12 @@ class Conway
     count = 0
     (-1..1).each do |rowdiff|
       (-1..1).each do |coldiff|
-        begin
-          next if (rowdiff == 0 && coldiff == 0) || # center
-            row + rowdiff < 0        || # left edge
-            row + rowdiff > ROWS - 1 || # right edge
-            col + coldiff < 0        || # top edge
-            col + coldiff > COLS - 1    # bottom edge
-          count += 1 if self.current_board[row + rowdiff][col + coldiff]
-        rescue
-          puts "wtf"
-          puts([row + rowdiff, col + coldiff].inspect)
-          puts(self.current_board[row + rowdiff].nil?)
-        end
+        next if (rowdiff == 0 && coldiff == 0) || # center
+          row + rowdiff < 0        || # left edge
+          row + rowdiff > ROWS - 1 || # right edge
+          col + coldiff < 0        || # top edge
+          col + coldiff > COLS - 1    # bottom edge
+        count += 1 if self.current_board[row + rowdiff][col + coldiff]
       end
     end
     count
